@@ -1,0 +1,711 @@
+<html><head><base href="https://"><meta title="Design Preview">
+<style>
+:root {
+  --navy: #663399;  /* Changed to purple */
+  --gray-light: #f7fafc;
+  --gray: #4a5568;
+  --transition: all 0.3s ease;
+  --shadow-color: #d1d9e6;
+  --light-color: #ffffff;
+  --background: #e6e0ec;  /* Changed to light purple */
+  --text-primary: #663399;  /* Changed to purple */
+  --text-secondary: #805ad5;  /* Changed to lighter purple */
+  --shadow-dark: #c5bfcc;  /* Adjusted for purple theme */
+  --shadow-light: #ffffff;
+}
+
+[data-theme="dark"] {
+  --background: #2d2436;  /* Changed to dark purple */
+  --text-primary: #ffffff;
+  --text-secondary: #b794f4;  /* Changed to light purple */
+  --shadow-dark: #231b2a;  /* Adjusted for dark purple theme */
+  --shadow-light: #382d42;  /* Adjusted for dark purple theme */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--background);
+  padding: 1rem;
+  transition: var(--transition);
+}
+
+.card {
+  background: var(--background);
+  border-radius: 20px;
+  padding: 1.5rem;  /* Reduce padding on smaller screens */
+  margin: 1rem;
+  width: calc(100% - 2rem);
+  max-width: 450px;
+  box-shadow: 
+    20px 20px 60px var(--shadow-dark),
+    -20px -20px 60px var(--shadow-light);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
+}
+
+.profile-info h1 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  text-shadow: 1px 1px 2px var(--shadow-light);
+}
+
+.profile-info p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.company-logo {
+  width: 120px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem; /* Added to create space before social icons */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem; /* Reduced from 2rem */
+}
+
+.contact-info {
+  max-height: 0;
+  opacity: 0;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.card.expanded .contact-info {
+  max-height: 300px;
+  opacity: 1;
+  margin-top: 1.5rem;
+}
+
+.contact-info ul {
+  list-style: none;
+}
+
+.contact-info li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  background: var(--background);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.contact-info a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.contact-info a:hover {
+  opacity: 0.8;
+}
+
+.carousel-container {
+  margin-top: 2rem;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  max-height: 0;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.card.expanded .carousel-container {
+  max-height: 400px;
+  opacity: 1;
+  margin-top: 1.5rem;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  min-width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
+
+.product-image {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1rem;
+  border-radius: 15px;
+  background: var(--background);
+  padding: 1rem;
+  box-shadow: 
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-title {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+.carousel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.carousel-btn {
+  background: var(--background);
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.carousel-btn:hover {
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--background);
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-primary);
+}
+
+.theme-toggle:hover {
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #9c27b0;  /* Changed to purple */
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+}
+
+.share-fixed-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;  /* Position on left side to mirror WhatsApp button */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #9c27b0;
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.share-fixed-btn:hover {
+  transform: scale(1.1);
+}
+
+.add-contact-btn {
+  display: inline-block;
+  margin: 1.5rem 0;
+  padding: 1rem 2rem;
+  background: var(--background);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  transition: var(--transition);
+  width: 100%;
+}
+
+.add-contact-btn:hover {
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.add-contact-btn i {
+  margin-right: 0.5rem;
+}
+
+.share-qr-btn {
+  display: block;
+  padding: 1rem 2rem;
+  background: var(--background);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  transition: var(--transition);
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.share-qr-btn:hover {
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+.qr-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.qr-modal.active {
+  display: flex;
+}
+
+.qr-content {
+  background: var(--background);
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 
+    20px 20px 60px var(--shadow-dark),
+    -20px -20px 60px var(--shadow-light);
+}
+
+.qr-content h2 {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.qr-content p {
+  color: var(--text-secondary);
+  margin-top: 1.5rem;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+#qrcode {
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+@media (max-width: 480px) {
+  .profile-info h1 {
+    font-size: 1.25rem;
+  }
+
+  .profile-info p {
+    font-size: 0.9rem;
+  }
+
+  .contact-info li {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .contact-info li a {
+    word-break: break-all;  /* Helps with long email addresses */
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-price {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .whatsapp-btn,
+  .share-fixed-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .add-contact-btn,
+  .share-qr-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-content {
+    padding: 1.5rem;
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  #qrcode img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-height: 700px) {
+  .card {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .profile {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-img {
+    width: 100px;
+    height: 100px;
+  }
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<button class="theme-toggle">
+  <i class="fas fa-moon"></i>
+</button>
+
+<div class="card">
+  <div class="profile">
+    <img src="/1729428604898.jfif" alt="A pixel art portrait of a young East Asian man in a dark blue suit with white boutonniere, styled in retro game aesthetic" class="profile-img" width="120" height="120">
+    <div class="profile-info">
+      <h1>Sergio de Villegas</h1>
+      <p>Software Developer</p>
+      <svg class="company-logo" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="25" fill="#663399" font-size="20" font-weight="bold">TechArt Software</text>
+      </svg>
+      
+      <!-- Moved social icons here -->
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/sergiodevillegas"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/sergiodevillegas"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/sergiodevillegas"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="contact-info">
+    <ul>
+      <li>
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:devillegassaavedrasergio1@gmail.com">devillegassaavedrasergio1@gmail.com</a>
+      </li>
+      <li>
+        <i class="fas fa-phone"></i>
+        <a href="tel:+5916299726">+591 6299 7926</a>
+      </li>
+      <li>
+        <i class="fas fa-globe"></i>
+        <a href="https://www.vcardchile.com">www.vcardchile.com</a>
+      </li>
+    </ul>
+    
+    <a href="data:text/vcard;charset=UTF-8,BEGIN:VCARD%0AVERSION:3.0%0AFN:Sergio de Villegas%0ATEL:+5916299726%0AEMAIL:devillegassaavedrasergio1@gmail.com%0AORG:TechArt Software%0ATITLE:Software Developer%0AEND:VCARD" download="sergio_de_villegas.vcf" class="add-contact-btn">
+      <i class="fas fa-user-plus"></i>
+      Add to Contacts
+    </a>
+
+    <button class="share-qr-btn">
+      <i class="fas fa-share-alt"></i>
+      Share Card
+    </button>
+    
+  </div>
+  
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="carousel-item">
+        <div class="product-image">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="8" fill="#E2E8F0"/>
+            <path d="M20 30h40v20H20z" fill="#663399"/>
+            <path d="M25 35h30v2H25z" fill="#fff"/>
+            <path d="M25 40h20v2H25z" fill="#fff"/>
+          </svg>
+        </div>
+        <h3 class="product-title">Tarjetas de Presentación Digitales</h3>
+        <p class="product-price">$99.99</p>
+      </div>
+      <div class="carousel-item">
+        <div class="product-image">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="8" fill="#E2E8F0"/>
+            <path d="M20 20h40v40H20z" fill="#663399"/>
+            <path d="M25 25h30v5H25z" fill="#fff"/>
+            <path d="M25 35h30v20H25z" fill="#fff"/>
+          </svg>
+        </div>
+        <h3 class="product-title">Páginas Web</h3>
+        <p class="product-price">$499.99</p>
+      </div>
+      <div class="carousel-item">
+        <div class="product-image">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="8" fill="#E2E8F0"/>
+            <path d="M25 20h30v40H25z" fill="#663399"/>
+            <path d="M30 25h20v5H30zM30 35h20v5H30zM30 45h20v5H30z" fill="#fff"/>
+          </svg>
+        </div>
+        <h3 class="product-title">Menús Digitales</h3>
+        <p class="product-price">$299.99</p>
+      </div>
+    </div>
+    <div class="carousel-buttons">
+      <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <div class="qr-modal">
+    <div class="qr-content">
+      <button class="close-modal"><i class="fas fa-times"></i></button>
+      <h2>Scan QR Code</h2>
+      <div id="qrcode"></div>
+      <p>Scan to view my digital card</p>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/5916299726" class="whatsapp-btn" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<button class="share-fixed-btn">
+  <i class="fas fa-share-alt"></i>
+</button>
+
+<script>
+// Load QR Code library
+function loadQRCodeLibrary() {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+// Initialize all functionality after QR library loads
+async function initializeApp() {
+  // Wait for QR library to load
+  await loadQRCodeLibrary();
+  
+  const themeToggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+  const themeIcon = themeToggle.querySelector('i');
+
+  themeToggle.addEventListener('click', () => {
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    }
+  });
+
+  document.querySelector('.profile-img').addEventListener('click', function() {
+    document.querySelector('.card').classList.toggle('expanded');
+  });
+
+  const carousel = document.querySelector('.carousel');
+  const items = document.querySelectorAll('.carousel-item');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    updateCarousel();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % items.length;
+    updateCarousel();
+  });
+
+  const shareBtn = document.querySelector('.share-fixed-btn');
+  const shareCardBtn = document.querySelector('.share-qr-btn');
+  const qrModal = document.querySelector('.qr-modal');
+  const closeModal = document.querySelector('.close-modal');
+
+  async function shareCard() {
+    const shareData = {
+      title: 'Sergio de Villegas - Digital Card',
+      text: 'Check out my digital business card!',
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        showQRCode();
+      }
+    } catch (err) {
+      console.log('Error sharing:', err);
+      showQRCode();
+    }
+  }
+
+  function showQRCode() {
+    const qrContainer = document.getElementById('qrcode');
+    qrContainer.innerHTML = '';
+    
+    new QRCode(qrContainer, {
+      text: window.location.href,
+      width: 200,
+      height: 200,
+      colorDark : "#663399",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+    
+    qrModal.classList.add('active');
+  }
+
+  shareBtn.addEventListener('click', shareCard);
+  shareCardBtn.addEventListener('click', shareCard);
+
+  closeModal.addEventListener('click', () => {
+    qrModal.classList.remove('active');
+  });
+
+  qrModal.addEventListener('click', (e) => {
+    if (e.target === qrModal) {
+      qrModal.classList.remove('active');
+    }
+  });
+}
+
+// Start the application
+initializeApp().catch(console.error);
+</script>
+
+</body></html>
